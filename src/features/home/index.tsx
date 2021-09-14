@@ -7,6 +7,8 @@ import {
 
 import InputWithErrorWrapper, { TextAreaWithErrorWrapper } from '../auth/components/InputWithErrorWrapper'
 import backendAPI from '../../api';
+import Button from '../components/Button';
+import CustomTitle from '../components/CustomTitle';
 
 export interface ICreateForm {
     title: string;
@@ -15,13 +17,13 @@ export interface ICreateForm {
 
 export const CreateItemSchema = Yup.object().shape({
     title: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
+        .min(2, 'Title is too short')
+        .max(50, 'Title is too long')
+        .required('Title is required'),
     description: Yup.string()
-        .min(5, 'Too Short!')
-        .max(300, 'Too Long!')
-        .required('Required')
+        .min(7, 'Description is too short')
+        .max(200, 'Description is too long')
+        .required('Description is required'),
 });
 
 
@@ -50,6 +52,7 @@ export default function index() {
 
     return (
         <div>
+            <CustomTitle title="Create Item"/>
             <Formik
                 initialValues={initialValues}
                 validationSchema={CreateItemSchema}
@@ -71,7 +74,7 @@ export default function index() {
                             touched={touched.description}
                         />
 
-                        <button type="submit">Submit</button>
+                        <Button title="Create Item"/>
                     </Form>
                 )}
             </Formik>

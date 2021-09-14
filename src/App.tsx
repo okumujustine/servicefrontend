@@ -21,9 +21,11 @@ function App() {
   return (
     <Router>
       <NavBar />
-      <Switch>
-        <NavigationRoutes/>
-      </Switch>
+      <div className="mt-4 w-9/12 md:mt-8 md:w-6/12 mx-auto">
+        <Switch>
+          <NavigationRoutes/>
+        </Switch>
+      </div>
     </Router>
   );
 }
