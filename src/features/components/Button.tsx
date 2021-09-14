@@ -8,6 +8,6 @@ interface IButtonType {
 
 export default function Button({buttonType="submit", title}:IButtonType) {
     return (
-        <button className="bg-blue-900 px-3 py-2 text-white rounded-lg" type={buttonType}>{title}</button>
+        <button className="bg-blue-900 px-3 py-2 text-white rounded-lg mb-3" type={buttonType}>{title}</button>
     )
 }

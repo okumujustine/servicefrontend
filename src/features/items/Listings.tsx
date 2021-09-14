@@ -32,7 +32,7 @@ export default function Listings() {
             const allItems = await getAllListings()
             setItemsArray(allItems)
         }catch(e){
-            console.log("error while fetching all items")
+            alert("error while fetching all items")
         }
     }
 

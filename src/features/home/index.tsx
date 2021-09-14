@@ -33,10 +33,10 @@ const submitAction = async (values, { resetForm, setSubmitting }) => {
        
     try {
         const createdItem = await backendAPI.createItem(values)
-       console.log(createdItem) 
         alert("Item successfully created")
-
         resetForm();
+
+        console.log(createdItem)
     } catch (err) {
         console.log(err.response.message);
     }

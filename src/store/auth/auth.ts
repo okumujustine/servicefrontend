@@ -45,7 +45,8 @@ export const authSlice = createSlice({
 const { userLoggedIn, authLoader } = authSlice.actions
 
 export const setUserAfterLoginAction = (user) => async dispatch => {
-    console.log(user)
+    console.log('setUserAfterLoginAction', user);
+    dispatch(userLoggedIn(user))
 }
 
 export const loginAction = ({ username_email, password }) => async dispatch => {
@@ -59,9 +60,12 @@ export const checkLoggedIn = () => async dispatch => {
         dispatch(userLoggedIn(user))
         dispatch(authLoader(false));
     } catch (e) {
-        console.log("error fetching user")
         dispatch(authLoader(false));
     }
+}
+
+export const setAuthLoader = (value: boolean) => async dispatch => {
+    dispatch(authLoader(value));
 }
 
 export default authSlice.reducer;

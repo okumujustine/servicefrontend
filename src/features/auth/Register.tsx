@@ -5,6 +5,8 @@ import {
 } from 'formik';
 import { RegisterValidationSchema } from './authValidationSchema';
 import InputWithErrorWrapper from './components/InputWithErrorWrapper';
+import CustomTitle from '../components/CustomTitle';
+import Button from '../components/Button';
 
 interface IDefaultLoginForm {
     username: string;
@@ -26,6 +28,7 @@ export default function Register() {
 
     return (
         <div>
+            <CustomTitle title="Register Here"/>
             <Formik
                 initialValues={initialValues}
                 validationSchema={RegisterValidationSchema}
@@ -49,12 +52,13 @@ export default function Register() {
 
                         <InputWithErrorWrapper
                             id="password"
+                            type="password"
                             placeholder="Password"
                             error={errors.password}
                             touched={touched.password}
                         />
 
-                        <button type="submit">Submit</button>
+                        <Button title="Register"/>
                     </Form>
                 )}
             </Formik>

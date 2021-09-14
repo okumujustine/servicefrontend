@@ -1,18 +1,27 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+
 import CustomGoogleLogin from './GoogleLogin'
 import backendAPI from "../../api"
-// import CustomFacebookLogin from './FacebookLogin';
 import DefaultLogin from './DefaultLogin';
+import CustomTitle from '../components/CustomTitle';
+import { setAuthLoader, setUserAfterLoginAction } from '../../store/auth/auth';
 
 
 export default function Login() {
 
+    const dispatch = useDispatch()
+
     const responseGoogle = async (responseGoogle) => {
+        dispatch(setAuthLoader(true))
         try {
-            const api = await backendAPI.verifyGoogleToken(responseGoogle?.tokenId)
-            console.log(api)
+            const user = await backendAPI.verifyGoogleToken(responseGoogle?.tokenId)
+
+            dispatch(setUserAfterLoginAction(user))
+            dispatch(setAuthLoader(false))
         } catch (e) {
-            console.log("error verifying email address")
+            alert("error verifying email address")
+            dispatch(setAuthLoader(false))
         }
     }
 
@@ -28,7 +37,7 @@ export default function Login() {
 
     return (
         <div>
-            <h2 className="text-3xl text-center text-gray-700 mb-4">Login Form</h2>
+            <CustomTitle title="Login Here"/>
             <DefaultLogin />
             <CustomGoogleLogin responseGoogle={responseGoogle} />
             {/* <CustomFacebookLogin responseFacebook={responseFacebook}/> */}
