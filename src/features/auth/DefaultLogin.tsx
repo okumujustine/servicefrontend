@@ -13,6 +13,7 @@ import InputWithErrorWrapper from './components/InputWithErrorWrapper';
 import backendAPI from '../../api';
 import { setAuthLoader, setUserAfterLoginAction } from '../../store/auth/auth';
 import Button from '../components/Button';
+import { ROUTES } from '../commons/routes';
 
 export interface IDefaultLoginForm {
     username_email: string;
@@ -21,6 +22,8 @@ export interface IDefaultLoginForm {
 
 export default function DefaultLogin() {
     const [error401, setError401] = useState(null) 
+    const [error, setError] = useState(null) 
+
     const dispatch = useDispatch()
 
     const initialValues: IDefaultLoginForm = {
@@ -30,6 +33,7 @@ export default function DefaultLogin() {
 
     const submitAction = async (values, { resetForm, setSubmitting }) => {
         setError401(null)
+        setError(null)
         setSubmitting(true);
         dispatch(setAuthLoader(true))
        
@@ -46,7 +50,7 @@ export default function DefaultLogin() {
                 setError401(err.response.data.message || "Invalid credentials")
                 return
             }
-            console.log(err.response.data.message);
+            setError(err.response.data.message);
             // alert("Invalid credentials");
         }
 
@@ -59,13 +63,13 @@ export default function DefaultLogin() {
 
     return (
         <div>
-            {error401 ? <div className="p-3 bg-red-50 text-red-700 mb-3">
+            {error401 || error  ? <div className="p-3 bg-red-50 text-red-700 mb-3">
                 <div className="flex flex-row justify-between">
-                    <div></div>
                     <button onClick={setErrorToNull} className="font-bold float-right">close</button>
                 </div>
-                <span className="text-blue-900 py-3 block">{error401}</span>
-                <Link className="text-blue-900 font-bold" to="/reset-password">Click here set or reset your password</Link>
+                {error && <span className="text-blue-900 py-3 block">{error}</span>}
+                {error401 && <><span className="text-blue-900 py-3 block">{error401}</span>
+                <Link className="text-blue-900 font-bold" to={ROUTES.RECOVER_PASSWORD}>Click here set or reset your password</Link></>}
             </div>: null }
             <Formik
                 initialValues={initialValues}

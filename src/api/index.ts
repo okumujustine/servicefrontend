@@ -6,6 +6,7 @@ import { getLoggedInUser } from "./auth/getLoggedInUser"
 import { getAllListings } from "./listings/getAllListings"
 import { createItem } from "./listings/addItem"
 import { ICreateForm } from "../features/home"
+import { recoverPassword } from "./auth/recoverPassword"
 
 export interface IBackendAPI {
     verifyGoogleToken: (token: string) => any;
@@ -14,6 +15,7 @@ export interface IBackendAPI {
     getLoggedInUser: () => any;
     getAllListings: () => any;
     createItem: (item: ICreateForm) => any;
+    recoverPassword: (email: string) => any;
 }
 
 const backendAPI: IBackendAPI = {
@@ -22,7 +24,8 @@ const backendAPI: IBackendAPI = {
     defaultLogin,
     getLoggedInUser,
     getAllListings,
-    createItem
+    createItem,
+    recoverPassword
 }
 
 export default backendAPI

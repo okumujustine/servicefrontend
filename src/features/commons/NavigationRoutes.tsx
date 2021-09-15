@@ -5,6 +5,7 @@ import {
 
 import Login from '../auth/Login';
 import Profile from '../auth/Profile';
+import RecoverPassword from '../auth/RecoverPassword';
 import Register from '../auth/Register';
 import ResetPassword from '../auth/ResetPassword';
 import ProtectedRoute from '../components/ProtectedRoute';
@@ -21,6 +22,7 @@ export default function NavigationRoutes() {
             <UnProtectedRoute exact path={ROUTES.LOGIN} component={Login} />
             <UnProtectedRoute exact path={ROUTES.REGISTER} component={Register} />
             <UnProtectedRoute exact path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
+            <UnProtectedRoute exact path={ROUTES.RECOVER_PASSWORD} component={RecoverPassword} />
 
             <ProtectedRoute exact path={ROUTES.CREATE} component={Home} />
             <ProtectedRoute exact path={ROUTES.PROFILE} component={Profile} />
