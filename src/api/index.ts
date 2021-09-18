@@ -7,6 +7,10 @@ import { getAllListings } from "./listings/getAllListings"
 import { createItem } from "./listings/addItem"
 import { ICreateForm } from "../features/home"
 import { recoverPassword } from "./auth/recoverPassword"
+import { logout } from "./auth/logout"
+import { IRegisterUser } from "../features/auth/Register"
+import { registerUser } from "./auth/registerUser"
+import { resetPassword } from "./auth/resetPassword"
 
 export interface IBackendAPI {
     verifyGoogleToken: (token: string) => any;
@@ -16,6 +20,9 @@ export interface IBackendAPI {
     getAllListings: () => any;
     createItem: (item: ICreateForm) => any;
     recoverPassword: (email: string) => any;
+    logout: () => any;
+    registerUser: (user: IRegisterUser) => any;
+    resetPassword: ({ userId, accessToken, password, password2 }: any) => any;
 }
 
 const backendAPI: IBackendAPI = {
@@ -25,7 +32,10 @@ const backendAPI: IBackendAPI = {
     getLoggedInUser,
     getAllListings,
     createItem,
-    recoverPassword
+    recoverPassword,
+    logout,
+    registerUser,
+    resetPassword
 }
 
 export default backendAPI

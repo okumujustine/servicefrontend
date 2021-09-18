@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import * as Yup from 'yup';
 import {
     Formik,
     Form,
 } from 'formik';
+import {  toast } from 'react-toastify';
 
 import InputWithErrorWrapper, { TextAreaWithErrorWrapper } from '../auth/components/InputWithErrorWrapper'
 import backendAPI from '../../api';
@@ -17,38 +18,47 @@ export interface ICreateForm {
 
 export const CreateItemSchema = Yup.object().shape({
     title: Yup.string()
-        .min(2, 'Title is too short')
+        .min(2, 'Title should be more than 2 characters')
         .max(50, 'Title is too long')
         .required('Title is required'),
     description: Yup.string()
-        .min(7, 'Description is too short')
-        .max(200, 'Description is too long')
+        .min(7, 'Description Title should be more than 7 characters')
+        .max(200, 'Description should be less than 200 characters')
         .required('Description is required'),
 });
 
 
-const submitAction = async (values, { resetForm, setSubmitting }) => {
+export default function Index() {
+    const [loading, setLoading] = useState(false)
 
-    setSubmitting(true);
-       
-    try {
-        const createdItem = await backendAPI.createItem(values)
-        alert("Item successfully created")
-        resetForm();
-
-        console.log(createdItem)
-    } catch (err) {
-        console.log(err.response.message);
-    }
-
-    setSubmitting(false);
-}
-
-export default function index() {
     const initialValues: ICreateForm = {
         title: '',
         description: ''
     };
+
+
+    const submitAction = async (values, { resetForm, setSubmitting }) => {
+        setLoading(true)
+        setSubmitting(true);
+           
+        try {
+    
+            await backendAPI.createItem(values)
+    
+            setTimeout(() => {
+                toast.success("Item successfully created")
+                resetForm();
+                setSubmitting(false);
+                setLoading(false)
+            },1000)
+    
+        } catch (err) {
+            toast.error(err.response.data.message|| "error creating item, try again later");
+            setSubmitting(false);
+            setLoading(false)
+        }
+    
+    }
 
     return (
         <div>
@@ -74,7 +84,7 @@ export default function index() {
                             touched={touched.description}
                         />
 
-                        <Button title="Create Item"/>
+                        <Button loading={loading} title="Create Item"/>
                     </Form>
                 )}
             </Formik>

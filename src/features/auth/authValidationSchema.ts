@@ -36,5 +36,8 @@ export const ResetPasswordSchema = Yup.object().shape({
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Required')
+        .oneOf(
+            [Yup.ref("password")],
+            "Both password need to be the same")
 })
 

@@ -3,6 +3,7 @@ import {
     Formik,
     Form,
 } from 'formik';
+import {  toast } from 'react-toastify';
 
 import Button from '../components/Button'
 import InputWithErrorWrapper from './components/InputWithErrorWrapper'
@@ -14,32 +15,43 @@ export interface IRecoverPasswordForm {
 }
 
 export default function RecoverPassword() {
+    const [resetMsg, setResetMsg] = React.useState(null);
     const initialValues: IRecoverPasswordForm = {
         email: '',
     };
 
     const submitAction = async (values, { resetForm, setSubmitting }) => {
         setSubmitting(true)
+        setResetMsg(null);
         try{
 
-            const recoverPassword = await backendAPI.recoverPassword(values?.email)
-            console.log("recoverPassword", recoverPassword)
-            resetForm()
+            await backendAPI.recoverPassword(values?.email)
+
+            setTimeout(() => {
+                setResetMsg(`We have sent you an email with instructions to reset your password. on ${values?.email}`);
+                setSubmitting(false)
+                resetForm()
+            }, 2000)
 
         }catch(error){
-            alert(error.response.data.message || "Error while sending password recovery email")
+            toast.error(error.response.data.message || "Error while sending password recovery email")
+            setResetMsg(null);
+            setSubmitting(false)
         }
-        setSubmitting(false)
     }
 
     return (
         <div>
+            {resetMsg?
+            <span className="py-3 block rounded px-6 bg-blue-50 mb-5">
+            {resetMsg}
+            </span>:null}
             <Formik
                 initialValues={initialValues}
                 validationSchema={RecoverPasswordSchema}
                 onSubmit={submitAction}
             >
-                {({ errors, touched }) => (
+                {({ errors, touched, isSubmitting }) => (
                     <Form>
                         <InputWithErrorWrapper
                             id="email"
@@ -48,7 +60,7 @@ export default function RecoverPassword() {
                             touched={touched.email}
                         />
 
-                        <Button title="Send" />
+                        <Button loading={isSubmitting} title="Send" />
                     </Form>
                 )}
             </Formik>

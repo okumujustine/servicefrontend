@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Switch
 } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
 
 import NavBar from './features/commons/NavBar';
 import NavigationRoutes from './features/commons/NavigationRoutes';
@@ -21,6 +22,7 @@ function App() {
   return (
     <Router>
       <NavBar />
+      <ToastContainer />
       <div className="mt-4 w-9/12 md:mt-8 md:w-6/12 mx-auto">
         <Switch>
           <NavigationRoutes/>

@@ -1,9 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getLoggedInUser } from '../../api/auth/getLoggedInUser';
-import { User } from '../../features/items/Listings';
+import backendAPI from '../../api';
 
-// import { RootState, AppThunk } from '../../app/store';
-// createAsyncThunk, 
+import { User } from '../../features/items/Listings';
 
 export interface AuthState {
     loggedIn: boolean;
@@ -38,15 +36,16 @@ export const authSlice = createSlice({
         },
         logoutSuccess: (state, action) => {
             state.user = null;
+            state.loggedIn = action.payload;
         },
     },
 });
 
-const { userLoggedIn, authLoader } = authSlice.actions
+const { userLoggedIn, authLoader, logoutSuccess } = authSlice.actions
 
 export const setUserAfterLoginAction = (user) => async dispatch => {
-    console.log('setUserAfterLoginAction', user);
     dispatch(userLoggedIn(user))
+    window.location.replace("/")
 }
 
 export const loginAction = ({ username_email, password }) => async dispatch => {
@@ -56,11 +55,21 @@ export const loginAction = ({ username_email, password }) => async dispatch => {
 export const checkLoggedIn = () => async dispatch => {
     dispatch(authLoader(true));
     try {
-        const { user } = await getLoggedInUser()
+        const { user } = await backendAPI.getLoggedInUser()
         dispatch(userLoggedIn(user))
         dispatch(authLoader(false));
     } catch (e) {
         dispatch(authLoader(false));
+    }
+}
+
+export const onLogout = () => async dispatch => {
+
+    try {
+        await backendAPI.logout()
+        dispatch(logoutSuccess(false))
+    } catch (e) {
+        alert("failed to logout, try again later")
     }
 }
 

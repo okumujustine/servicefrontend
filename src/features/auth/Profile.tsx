@@ -1,8 +1,8 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { RootState } from '../../app/store'
-import { AuthState } from '../../store/auth/auth'
+import { AuthState, onLogout } from '../../store/auth/auth'
 import CustomTitle from '../components/CustomTitle'
 
 function ProfileItemWrapper({ children, value }: { children: React.ReactNode, value: string }) {
@@ -15,7 +15,13 @@ function ProfileItemWrapper({ children, value }: { children: React.ReactNode, va
 }
 
 export default function Profile() {
+    const dispatch = useDispatch()
+
     const auth: AuthState = useSelector((state: RootState) => state.auth)
+
+    const onLogoutNow = () => {
+        dispatch(onLogout())
+    }
 
     return (
         <>
@@ -32,6 +38,7 @@ export default function Profile() {
                 </svg>
             </ProfileItemWrapper>
         </div>: null}
+        <button onClick={onLogoutNow} className="bg-red-400 text-white px-4 py-2 rounded-md shadow-md">logout</button>
         </>
     )
 }

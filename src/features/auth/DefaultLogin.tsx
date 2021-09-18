@@ -51,7 +51,6 @@ export default function DefaultLogin() {
                 return
             }
             setError(err.response.data.message);
-            // alert("Invalid credentials");
         }
 
         setSubmitting(false);
@@ -93,7 +92,10 @@ export default function DefaultLogin() {
                             touched={touched.password}
                         />
 
+                        <div className="flex justify-between">
                         <Button title="Login"/>
+                        <Link className="text-blue-900 underline" to={ROUTES.RECOVER_PASSWORD}>Reset password</Link>
+                        </div>
                     </Form>
                 )}
             </Formik>

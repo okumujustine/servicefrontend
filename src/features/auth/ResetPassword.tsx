@@ -4,10 +4,12 @@ import {
     Form,
 } from 'formik';
 import { useParams } from "react-router-dom";
+import {  toast } from 'react-toastify';
 
 import Button from '../components/Button';
 import { ResetPasswordSchema } from './authValidationSchema';
 import InputWithErrorWrapper from './components/InputWithErrorWrapper';
+import backendAPI from '../../api';
 
 export interface IResetPasswordForm {
     password: string;
@@ -32,9 +34,26 @@ export default function ResetPassword() {
 
     const submitAction = async (values, { resetForm, setSubmitting }) => {
         setSubmitting(true)
-        console.log(`values:${values}, userId:${userId}, token:${token}` )
+        
+        try{
+            await backendAPI.resetPassword({
+                userId, 
+                accessToken:token, 
+                password:values.password,
+                password2:values.password2
+            })
+            
 
-        resetForm()
+            setTimeout(() => {
+                toast.success('Password reset successfully, you can now login')
+                setSubmitting(false)
+                resetForm()
+            },2000)
+            
+        }catch(err){
+            setSubmitting(false)
+            toast.error(err.response.data.message || "Error resetting password, try again later");
+        }
     }
 
     return (
@@ -44,22 +63,24 @@ export default function ResetPassword() {
                 validationSchema={ResetPasswordSchema}
                 onSubmit={submitAction}
             >
-                {({ errors, touched }) => (
+                {({ errors, touched, isSubmitting }) => (
                     <Form>
                         <InputWithErrorWrapper
                             id="password"
                             placeholder="Password"
+                            type="password"
                             error={errors.password}
                             touched={touched.password}
                         />
                         <InputWithErrorWrapper
                             id="password2"
                             placeholder="Confirm password"
+                            type="password"
                             error={errors.password2}
                             touched={touched.password2}
                         />
 
-                        <Button title="Send" />
+                        <Button loading={isSubmitting} title="Send" />
                     </Form>
                 )}
             </Formik>

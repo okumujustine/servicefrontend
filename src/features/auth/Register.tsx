@@ -3,27 +3,42 @@ import {
     Formik,
     Form,
 } from 'formik';
+import {  toast } from 'react-toastify';
+
 import { RegisterValidationSchema } from './authValidationSchema';
 import InputWithErrorWrapper from './components/InputWithErrorWrapper';
 import CustomTitle from '../components/CustomTitle';
 import Button from '../components/Button';
+import backendAPI from '../../api';
 
-interface IDefaultLoginForm {
+export interface IRegisterUser {
     username: string;
     email: string;
     password: string;
 }
 
 export default function Register() {
-    const initialValues: IDefaultLoginForm = {
+    const initialValues: IRegisterUser = {
         username: '',
         email: '',
         password: ''
     };
 
-    const submitAction = (values, { resetForm, setSubmitting }) => {
-        setSubmitting(false);
-        resetForm();
+    const submitAction = async (values, { resetForm, setSubmitting }) => {
+        setSubmitting(true);
+
+        try{
+            await backendAPI.registerUser(values)
+            resetForm();
+            toast.success(`user ${values.username} successfully created, you can now login`);
+            setTimeout(() =>{
+                setSubmitting(false);
+            },2000)
+        }catch(err){
+            setSubmitting(false);
+            toast.error(err.response.data.message || "Error creating user, try again later");
+        }
+        
     }
 
     return (
@@ -34,7 +49,7 @@ export default function Register() {
                 validationSchema={RegisterValidationSchema}
                 onSubmit={submitAction}
             >
-                {({ errors, touched }) => (
+                {({ errors, touched, isSubmitting }) => (
                     <Form>
                         <InputWithErrorWrapper
                             id="username"
@@ -58,7 +73,7 @@ export default function Register() {
                             touched={touched.password}
                         />
 
-                        <Button title="Register"/>
+                        <Button loading={isSubmitting} title="Register"/>
                     </Form>
                 )}
             </Formik>
