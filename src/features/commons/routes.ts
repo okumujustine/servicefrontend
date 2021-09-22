@@ -7,6 +7,7 @@ const PROFILE = "/profile"
 const RESET_PASSWORD = "/reset-password/:userId/:token"
 const RECOVER_PASSWORD = "/recover-password"
 const NOTIFICATION = "/notification"
+const LINKEDIN_CALLBACK = "/linkedin-callback"
 
 export const ROUTES = {
     LOGIN,
@@ -16,5 +17,6 @@ export const ROUTES = {
     RESET_PASSWORD,
     LISTING,
     NOTIFICATION,
-    RECOVER_PASSWORD
+    RECOVER_PASSWORD,
+    LINKEDIN_CALLBACK
 }

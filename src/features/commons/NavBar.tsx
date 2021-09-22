@@ -23,7 +23,8 @@ function NavBar() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center justify-between w-full">
               <div>
-                <h5 className="text-white text-2xl font-bold">LOGO</h5>
+                {!auth.loggedIn ? <h5 className="text-white text-2xl font-bold">LOGO</h5> : 
+                <small className="text-white"><i>welcome, </i>{auth?.user?.email}</small>}
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">

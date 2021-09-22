@@ -2,6 +2,7 @@ import React from 'react'
 import {
     Route,
 } from "react-router-dom";
+import LinkedinLoginCallback from '../auth/LinkedinLoginCallback';
 
 import Login from '../auth/Login';
 import Profile from '../auth/Profile';
@@ -24,6 +25,7 @@ export default function NavigationRoutes() {
             <UnProtectedRoute exact path={ROUTES.REGISTER} component={Register} />
             <UnProtectedRoute exact path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
             <UnProtectedRoute exact path={ROUTES.RECOVER_PASSWORD} component={RecoverPassword} />
+            <UnProtectedRoute exact path={ROUTES.LINKEDIN_CALLBACK} component={LinkedinLoginCallback} />
 
             <ProtectedRoute exact path={ROUTES.NOTIFICATION} component={Notifications} />
             <ProtectedRoute exact path={ROUTES.CREATE} component={Home} />
