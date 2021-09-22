@@ -28,8 +28,7 @@ export default function LinkedinLoginCallback() {
 
         try{
             const user = await backendAPI.linkedinLogin(code)
-  
-            console.log("user", user)
+
             setTimeout(() => {
                 setError(null)
                 setLoading(false)
