@@ -5,7 +5,7 @@ export default function CustomFacebookLogin({responseFacebook}) {
     return (
         <div>
            <FacebookLogin
-                appId="4180054262113920"
+                appId={process.env.REACT_APP_FACEBOOK_APP_ID}
                 autoLoad={false}
                 fields="name,email"
                 callback={responseFacebook} 

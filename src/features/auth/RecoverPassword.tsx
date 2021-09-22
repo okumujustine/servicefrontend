@@ -15,7 +15,7 @@ export interface IRecoverPasswordForm {
 }
 
 export default function RecoverPassword() {
-    const [resetMsg, setResetMsg] = React.useState(null);
+    const [resetMsg, setResetMsg] = React.useState<string|null>(null);
     const initialValues: IRecoverPasswordForm = {
         email: '',
     };
@@ -34,7 +34,7 @@ export default function RecoverPassword() {
             }, 2000)
 
         }catch(error){
-            toast.error(error.response.data.message || "Error while sending password recovery email")
+            toast.error(error.response ? error.response.data.message : "Error while sending password recovery email")
             setResetMsg(null);
             setSubmitting(false)
         }

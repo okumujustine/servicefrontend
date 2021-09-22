@@ -9,15 +9,21 @@ import NavBar from './features/commons/NavBar';
 import NavigationRoutes from './features/commons/NavigationRoutes';
 import { useDispatch } from 'react-redux'
 import { checkLoggedIn } from './store/auth/auth';
+import { loadNotifications } from './store/items/notifications';
 
 function App() {
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(checkLoggedIn())
+    loadUserAndNotifications()
     // eslint-disable-next-line
   }, [])
+
+  const loadUserAndNotifications = async () => {
+    await dispatch(checkLoggedIn())
+    await dispatch(loadNotifications())
+  }
 
   return (
     <Router>

@@ -12,6 +12,7 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import UnProtectedRoute from '../components/UnProtectedRoute';
 import Home from "../home/"
 import Listings from '../items/Listings';
+import Notifications from '../notification/Notifications';
 import { ROUTES } from './routes';
 
 export default function NavigationRoutes() {
@@ -24,6 +25,7 @@ export default function NavigationRoutes() {
             <UnProtectedRoute exact path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
             <UnProtectedRoute exact path={ROUTES.RECOVER_PASSWORD} component={RecoverPassword} />
 
+            <ProtectedRoute exact path={ROUTES.NOTIFICATION} component={Notifications} />
             <ProtectedRoute exact path={ROUTES.CREATE} component={Home} />
             <ProtectedRoute exact path={ROUTES.PROFILE} component={Profile} />
             

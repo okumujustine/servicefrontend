@@ -1,82 +1,127 @@
-import React, { useState } from 'react'
-import {
-  Link,
-} from "react-router-dom";
+
 import { useSelector } from 'react-redux'
 
 import { AuthState } from '../../store/auth/auth';
 import { RootState } from '../../app/store';
 import { ROUTES } from './routes';
+// import { INotificationState } from '../../store/items/notifications';
 
-const NavBar = () => {
-  const [toggleMenu, setToggleMenu] = useState(false);
+import React from "react";
+import { Transition } from "@headlessui/react";
+import NavItem, { MobileNavItem, NotificationNavItem } from "./NavItem";
+
+function NavBar() {
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const auth: AuthState = useSelector((state: RootState) => state.auth)
-
-  const handleToggle = () => {
-    setToggleMenu(!toggleMenu)
-  }
+  // const notificationsState: INotificationState = useSelector((state: RootState) => state.notificationsState)
 
   return (
-    <header>
-      <div className="px-4 py-2 text-white flex  justify-between bg-blue-900">
-        <div className="flex items-center">
-          {auth.user?.email ? <h1>{auth.user?.email}</h1> : <h1 className="text-bold">TODO</h1>}
-        </div>
-        <div className={toggleMenu ? "md:flex  md:pt-0 pt-10 w-full md:w-auto" : "hidden md:flex"} id="menu">
-          <ul>
-            <Link to={ROUTES.LISTING} className="dropdown md:inline-block cursor-pointer hover:text-gray-500 border-b md:border-none py-2 px-3 relative">
-              Listings
-            </Link>
+    <div>
+      <nav className="bg-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center justify-between w-full">
+              <div>
+                <h5 className="text-white text-2xl font-bold">LOGO</h5>
+              </div>
+              <div className="hidden md:block">
+                <div className="ml-10 flex items-baseline space-x-4">
+                  {/* first */}
+                  {auth.loggedIn ? <>
+                  <NavItem item="Listings" to={ROUTES.LISTING}/>
+                  <NavItem item="Create" to={ROUTES.CREATE}/>
+                  <NotificationNavItem item="Notifications" to={ROUTES.NOTIFICATION}/>
+                  <NavItem item="Profile" to={ROUTES.PROFILE}/>
+                  </>:null}
 
-            {!auth.loading ?
-              <>
-                {!auth.loggedIn && !auth.user ?
-                  <>
-                    <Link to={ROUTES.LOGIN} className="md:inline-block cursor-pointer hover:text-gray-500 border-b md:border-none py-2 px-3">
-                      Login
-                    </Link>
-                    <Link to={ROUTES.REGISTER} className="md:inline-block cursor-pointer hover:text-gray-500 border-b md:border-none py-2 px-3">
-                      Register
-                    </Link>
-                  </>
-                  :
-                  <>
-                    <Link to={ROUTES.CREATE} className="md:inline-block cursor-pointer hover:text-gray-500 border-b md:border-none py-2 px-3">
-                      Create
-                    </Link>
-                    <Link to={ROUTES.PROFILE} className="md:inline-block cursor-pointer hover:text-gray-500 border-b md:border-none py-2 px-3">
-                      Profile
-                    </Link>
-                    <Link to={ROUTES.NOTIFICATION} className="md:inline-block cursor-pointer hover:text-gray-500 border-b md:border-none py-2 px-3">
-                      Notifications
-                    </Link>
-                  </>
-                }
-              </>
-              :
-              <>
-                <div className="md:inline-block text-blue-900 cursor-pointer border-b md:border-none py-2 px-3">
-                  Login
+                  {!auth.loggedIn ? <>
+                  <NavItem item="Listings" to={ROUTES.LISTING}/>
+                  <NavItem item="Login" to={ROUTES.LOGIN}/>
+                  <NavItem item="Register" to={ROUTES.REGISTER}/>
+                  </> : null}
+
                 </div>
-                <div className="md:inline-block text-blue-900 cursor-pointer border-b md:border-none py-2 px-3">
-                  Register
-                </div>
-              </>
-            }
-
-
-          </ul>
+              </div>
+            </div>
+            <div className="-mr-2 flex md:hidden">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                type="button"
+                className="bg-gray-900 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                aria-controls="mobile-menu"
+                aria-expanded="false"
+              >
+                <span className="sr-only">Open main menu</span>
+                {!isOpen ? (
+                  <svg
+                    className="block h-6 w-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="block h-6 w-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="cursor-pointer md:hidden">
-          <input className="menu-btn hidden" type="checkbox" id="menu-btn" />
-          <label className="menu-icon block cursor-pointer md:hidden px-2 py-4 relative select-none" htmlFor="menu-btn">
-            <span onClick={handleToggle} className="navicon bg-white-darkest flex items-center relative"></span>
-          </label>
-        </div>
-      </div>
-    </header>
-  )
-};
+
+        <Transition
+          show={isOpen}
+          enter="transition ease-out duration-100 transform"
+          enterFrom="opacity-0 scale-95"
+          enterTo="opacity-100 scale-100"
+          leave="transition ease-in duration-75 transform"
+          leaveFrom="opacity-100 scale-100"
+          leaveTo="opacity-0 scale-95"
+        >
+          {() => (
+            <div className="md:hidden" id="mobile-menu">
+              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              {auth.loggedIn ? <>
+                  <MobileNavItem item="Listings" to={ROUTES.LISTING}/>
+                  <MobileNavItem item="Create" to={ROUTES.CREATE}/>
+                  <MobileNavItem item="Notifications" to={ROUTES.NOTIFICATION}/>
+                  <MobileNavItem item="Profile" to={ROUTES.PROFILE}/>
+                  </>:null}
+
+                  {!auth.loggedIn ? <>
+                  <MobileNavItem item="Listings" to={ROUTES.LISTING}/>
+                  <MobileNavItem item="Login" to={ROUTES.LOGIN}/>
+                  <MobileNavItem item="Register" to={ROUTES.REGISTER}/>
+                  </> : null}
+              </div>
+            </div>
+          )}
+        </Transition>
+      </nav>
+    </div>
+  );
+}
 
 export default NavBar;

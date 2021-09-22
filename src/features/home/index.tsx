@@ -53,7 +53,7 @@ export default function Index() {
             },1000)
     
         } catch (err) {
-            toast.error(err.response.data.message|| "error creating item, try again later");
+            toast.error(err.response ? err.response.data.message : "Error creating item, try again later");
             setSubmitting(false);
             setLoading(false)
         }

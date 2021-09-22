@@ -36,7 +36,7 @@ export default function Register() {
             },2000)
         }catch(err){
             setSubmitting(false);
-            toast.error(err.response.data.message || "Error creating user, try again later");
+            toast.error(err.response ? err.response.data.message : "Error creating user, try again later");
         }
         
     }

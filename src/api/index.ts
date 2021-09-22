@@ -11,6 +11,7 @@ import { logout } from "./auth/logout"
 import { IRegisterUser } from "../features/auth/Register"
 import { registerUser } from "./auth/registerUser"
 import { resetPassword } from "./auth/resetPassword"
+import { updateItemStatus } from "./listings/updateItemStatus"
 
 export interface IBackendAPI {
     verifyGoogleToken: (token: string) => any;
@@ -23,6 +24,7 @@ export interface IBackendAPI {
     logout: () => any;
     registerUser: (user: IRegisterUser) => any;
     resetPassword: ({ userId, accessToken, password, password2 }: any) => any;
+    updateItemStatus: ({ itemId, status }: { itemId: string, status: string }) => any
 }
 
 const backendAPI: IBackendAPI = {
@@ -35,7 +37,8 @@ const backendAPI: IBackendAPI = {
     recoverPassword,
     logout,
     registerUser,
-    resetPassword
+    resetPassword,
+    updateItemStatus
 }
 
 export default backendAPI

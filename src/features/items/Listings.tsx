@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
-import { getAllListings } from '../../api/listings/getAllListings'
 import { RootState } from '../../app/store'
 import { ReactComponent as NoItemSVG } from "../../assets/svg/nowork.svg"
 import { AuthState } from '../../store/auth/auth'
+import { ItemState, loadItem } from '../../store/items/items'
 import CustomTitle from '../components/CustomTitle'
 import ItemUpdateModal from '../components/ItemUpdateModal'
 
@@ -21,50 +21,49 @@ interface Item {
     title: string,
     description: string,
     status: string,
-    user: User
+    user: User,
+    helpers?: any[]
 }
 
 
 export default function Listings() {
-
-    const [itemsArray, setItemsArray] = useState<Item[]>([])
-    const [selectedItem, setSelectedItem] = useState<Item>(null)
-    const [loading, setLoading] = useState(false)
+    const [selectedItem, setSelectedItem] = useState<Item|null>(null)
     const [updateModal, setUpdateModal] = React.useState(false);
 
     const auth: AuthState = useSelector((state: RootState) => state.auth)
+    const {items, itemsLoading}: ItemState = useSelector((state: RootState) => state.itemState)
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        fetchAllItems()
+        dispatch(loadItem())
         // eslint-disable-next-line
     }, [])
 
-    const fetchAllItems = async () => {
-        setLoading(true)
-        try {
-            const allItems = await getAllListings()
-            setItemsArray(allItems)
-            setLoading(false)
-        } catch (e) {
-            setLoading(false)
-            alert("error while fetching all items")
-        }
-    }
 
-    const closeUpdateModal = () => setUpdateModal(false)
+    const closeUpdateModal = () => {
+        setUpdateModal(false)
+    }
     const openUpdateModal = (item:any) => {
         setUpdateModal(true)
         setSelectedItem(item)
     }
 
+    function userExists(id, arr) {
+        const userEx = arr.some(function(el) {
+          return el.id === id;
+        }); 
+        return userEx
+      }
+
     return (
         <div className="w-full m-auto">
             <ItemUpdateModal
-                itemTitle={selectedItem?.title || "ITEM"}
+                item={selectedItem}
                 updateModal={updateModal}
                 closeUpdateModal={closeUpdateModal}
             />
-            {!loading && itemsArray.length <= 0 &&
+            {!itemsLoading && items.length <= 0 &&
                 <div className="flex flex-col items-center">
                     <CustomTitle title="No product found" />
                     <NoItemSVG />
@@ -72,14 +71,19 @@ export default function Listings() {
                 </div>
             }
             <div>
-                {itemsArray.map((item: Item) => (
+                {items.map((item: Item) => (
                     <div key={item._id} className="rounded border-gray-200 border shadow-sm p-4 mb-3">
                         <p className="text-xl capitalize">{item.title}</p>
-                        <p>{item.status}</p>
+                        <p>{item.status}{auth?.user && item.user.id === auth.user?.id ? <span className="text-green-500 text-sm italic pl-1">(owner)</span> : null}</p>
+                        <p>{item.description}</p>
                         <small><i>author: {item.user.email}</i></small>
                         <div className="mt-4">
+                            {auth?.user && item.user.id === auth.user?.id ? 
                             <button className="bg-blue-50 text-blue-800 text-sm px-3 py-1 shadow-sm mr-2" onClick={() => openUpdateModal(item)}>update</button>
-                            {auth?.user && item.user.id !== auth.user?.id ? <button className="bg-blue-50 text-blue-800 text-sm px-3 py-1 shadow-sm mr-2">Help</button> : null}
+                            :null}
+                            {auth?.user && item.user.id !== auth.user?.id && !userExists(auth.user?.id,item.helpers) ? 
+                            <button className="bg-blue-50 text-blue-800 text-sm px-3 py-1 shadow-sm mr-2">Help</button> : null}
+                            {userExists(auth.user?.id,item.helpers) ? <small className="text-green-500 text-sm italic pl-1">(Already a helper)</small>: null}
                         </div>
                     </div>
                 ))}

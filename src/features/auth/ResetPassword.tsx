@@ -20,7 +20,6 @@ export default function ResetPassword() {
     const { userId, token } = useParams();
 
     useEffect(() => {
-        console.log(userId, token )
         if(!userId || !token) {
             alert('Invalid link')
         }
@@ -52,7 +51,7 @@ export default function ResetPassword() {
             
         }catch(err){
             setSubmitting(false)
-            toast.error(err.response.data.message || "Error resetting password, try again later");
+            toast.error(err.response ? err.response.data.message : "Error resetting password, try again later");
         }
     }
 
