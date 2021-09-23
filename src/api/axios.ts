@@ -12,4 +12,10 @@ const TodoServiceInstance = axios.create({
     withCredentials: true,
 });
 
-export { AuthServiceInstance, TodoServiceInstance }
+const NotificationServiceInstance = axios.create({
+    baseURL: 'http://localhost:8000/just-list/notification/',
+    timeout: 10000,
+    withCredentials: true,
+});
+
+export { AuthServiceInstance, TodoServiceInstance, NotificationServiceInstance }

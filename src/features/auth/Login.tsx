@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import {  toast } from 'react-toastify';
 
 import CustomGoogleLogin from './GoogleLogin'
 import backendAPI from "../../api"
@@ -22,8 +23,8 @@ export default function Login() {
 
             dispatch(setUserAfterLoginAction(user))
             dispatch(setAuthLoader(false))
-        } catch (e) {
-            alert("error verifying email address")
+        } catch (error) {
+            toast.error(error.response ? error.response.data.message : "Error verifying email address")
             dispatch(setAuthLoader(false))
         }
     }

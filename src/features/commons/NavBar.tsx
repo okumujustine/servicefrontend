@@ -1,20 +1,19 @@
 
 import { useSelector } from 'react-redux'
+import React from "react";
+import { Transition } from "@headlessui/react";
 
 import { AuthState } from '../../store/auth/auth';
 import { RootState } from '../../app/store';
 import { ROUTES } from './routes';
-// import { INotificationState } from '../../store/items/notifications';
-
-import React from "react";
-import { Transition } from "@headlessui/react";
+import { INotificationState } from '../../store/items/notifications';
 import NavItem, { MobileNavItem, NotificationNavItem } from "./NavItem";
 
 function NavBar() {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const auth: AuthState = useSelector((state: RootState) => state.auth)
-  // const notificationsState: INotificationState = useSelector((state: RootState) => state.notificationsState)
+  const notificationsState: INotificationState = useSelector((state: RootState) => state.notificationsState)
 
   return (
     <div>
@@ -32,7 +31,7 @@ function NavBar() {
                   {auth.loggedIn ? <>
                   <NavItem item="Listings" to={ROUTES.LISTING}/>
                   <NavItem item="Create" to={ROUTES.CREATE}/>
-                  <NotificationNavItem item="Notifications" to={ROUTES.NOTIFICATION}/>
+                  <NotificationNavItem  notification = {notificationsState?.notifications?.length} item="Notifications" to={ROUTES.NOTIFICATION}/>
                   <NavItem item="Profile" to={ROUTES.PROFILE}/>
                   </>:null}
 

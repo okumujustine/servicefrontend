@@ -1,18 +1,24 @@
 ### Frontend
 
-#### Clone the project.
-make sure that the backend services are running.
+##### 1. Clone the project.
 
-create a .env file from the copy .example.env
+```$ git clone ```
 
-add the variables
-REACT_APP_LINKEDIN_LOGIN_CALL_BACK_URL=(get from google)
-REACT_APP_LINKEDIN_CLIENT_ID=
-REACT_APP_GOOGLE_LOGIN_CLIENT_ID=
-REACT_APP_FACEBOOK_APP_ID=
+NB: make sure that the backend services are running, the.
+- Todo/Item Service
+- User Service
+- Notification service
 
-NB:this values should be the same all through the application, frontend and the backend services as some of them are reused for verification of token generated from the frontend.
+##### 2. Create a .env file from the copy .example.env
 
-run npm install to install all the required packages
 
-Use npm start to start the server.
+```$ cp  .example.env .env```
+Then edit the variables in the .env file to have real values.
+
+NB: This values should be the same in the backend services as some of them are reused for verification of token generated from the frontend.
+
+##### 3. Install all the required packages
+```$ run npm install```
+
+##### 4. to start the frontend use the command below
+```$ npm start```

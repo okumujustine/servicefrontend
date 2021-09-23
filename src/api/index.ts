@@ -13,6 +13,9 @@ import { registerUser } from "./auth/registerUser"
 import { resetPassword } from "./auth/resetPassword"
 import { updateItemStatus } from "./listings/updateItemStatus"
 import { linkedinLogin } from "./auth/linkedinLogin"
+import { createNotification } from "./notification/createNotification"
+import { myNotificationRequests } from "./notification/myNotificationRequests"
+import { addItemHelper } from "./listings/addItemHelper"
 
 export interface IBackendAPI {
     verifyGoogleToken: (token: string) => any;
@@ -27,6 +30,9 @@ export interface IBackendAPI {
     resetPassword: ({ userId, accessToken, password, password2 }: any) => any;
     updateItemStatus: ({ itemId, status }: { itemId: string, status: string }) => any
     linkedinLogin: (accessToken: string) => any;
+    createNotification: (item: any) => any;
+    myNotificationRequests: () => any;
+    addItemHelper: ({ helper, itemId }: any) => any;
 }
 
 const backendAPI: IBackendAPI = {
@@ -41,7 +47,10 @@ const backendAPI: IBackendAPI = {
     registerUser,
     resetPassword,
     updateItemStatus,
-    linkedinLogin
+    linkedinLogin,
+    createNotification,
+    myNotificationRequests,
+    addItemHelper
 }
 
 export default backendAPI

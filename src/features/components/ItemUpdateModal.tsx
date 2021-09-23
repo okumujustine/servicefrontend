@@ -13,7 +13,7 @@ export default function ItemUpdateModal({
   updateModal,
   closeUpdateModal,
   item
-}) {
+}:any) {
 
   const dispatch = useDispatch()
   
@@ -43,8 +43,8 @@ export default function ItemUpdateModal({
       isOpen={updateModal}
     >
       <div className="px-6 py-5">
-        <h5 className="underline">CHOSE THE STATUS TO UPDATE TO</h5>
-        <h6><i>{item?.title}</i></h6>
+        <h5 className="underline">UPDATE ITEM STATUS</h5>
+        <h6 className="py-2"><i>{item?.title}</i></h6>
         <Formik
       initialValues={{
         picked: '',
@@ -69,7 +69,7 @@ export default function ItemUpdateModal({
             </label> : null}
           </div>
 
-          <button type="submit">Submit</button>
+          <button className="bg-blue-800 text-white px-3 py-2 mt-2 rounded-md" type="submit">Confirm</button>
         </Form>
       )}
     </Formik>

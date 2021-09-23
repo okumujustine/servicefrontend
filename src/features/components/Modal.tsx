@@ -16,19 +16,19 @@ const customStyles = {
 Modal.setAppElement('#root')
 
 interface IModal {
-    isOpen:boolean;
-    closeModal:()=>void;
-    children:React.ReactElement;
-    onConfirm?:()=>void;
-    confirmHidden?:boolean;
+    isOpen: boolean;
+    closeModal: () => void;
+    children: React.ReactElement;
+    onConfirm?: () => void;
+    confirmHidden?: boolean;
 }
 export default function ItemUpdateModal({
     isOpen,
     closeModal,
     children,
     onConfirm,
-    confirmHidden=true
-}:IModal) {
+    confirmHidden = true
+}: IModal) {
 
     return (
         <Modal
@@ -37,12 +37,13 @@ export default function ItemUpdateModal({
             style={customStyles}
             contentLabel="Example Modal"
         >
+            <div className="flex justify-between mt-5">
+                <div></div>
+                <button className="text-red-700 px-4 py-2 rounded-md mr-4 underline" onClick={closeModal}>Close</button>
+                {confirmHidden ? null : <button className="bg-blue-700 text-white px-4 py-2 rounded-md ml-4" onClick={onConfirm}>Confirm</button>}
+            </div>
             <div>
                 {children}
-                <div className="flex justify-between mt-5">
-                    <button className="bg-red-700 text-white px-4 py-2 rounded-md mr-4" onClick={closeModal}>Cancel</button>
-                    {confirmHidden ? null : <button className="bg-blue-700 text-white px-4 py-2 rounded-md ml-4" onClick={onConfirm}>Confirm</button>}
-                </div>
             </div>
         </Modal>
     )

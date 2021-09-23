@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 import backendAPI from '../../api';
 
@@ -22,15 +23,7 @@ export const notificationSlice = createSlice({
         },
         notificationsLoaded: (state, action) => {
             state.notifications = action.payload;
-        },
-        // updateItemStatusReducer: (state, action) => {
-        //     let changeableArray = state.items
-
-        //     const itemIndex = changeableArray.findIndex((item => item._id === action.payload.itemId));
-        //     changeableArray[itemIndex].status = action.payload.status;
-
-        //     state.items = changeableArray
-        // }
+        }
     },
 });
 
@@ -39,19 +32,17 @@ const { isNotificationsLoading, notificationsLoaded } = notificationSlice.action
 export const loadNotifications = () => async dispatch => {
     dispatch(isNotificationsLoading(true))
     try {
-        const items = await backendAPI.getAllListings()
-        dispatch(notificationsLoaded(items))
+        const notificationsResponse = await backendAPI.myNotificationRequests()
+
+        dispatch(notificationsLoaded(notificationsResponse.notification))
         dispatch(isNotificationsLoading(false))
 
     } catch (err) {
         dispatch(isNotificationsLoading(false))
-        // toast.error(err.response ? err.response.data.message : 'Error loading notifications')
+        toast.error(err.response ? err.response.data.message : 'Error loading notifications, try again later')
     }
 }
 
-// export const updateItemStatusOnUI = ({ itemId, status }: { itemId: string, status: string }) => async dispatch => {
-//     dispatch(updateItemStatusReducer({ itemId, status }))
-// }
 
 
 export default notificationSlice.reducer;
