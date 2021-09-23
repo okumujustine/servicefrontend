@@ -1,4 +1,4 @@
-### Frontend
+### FRONTEND SERVICE
 
 ##### 1. Clone the project.
 
@@ -18,7 +18,7 @@ Then edit the variables in the .env file to have real values.
 NB: This values should be the same in the backend services as some of them are reused for verification of token generated from the frontend.
 
 ##### 3. Install all the required packages
-```$ run npm install```
+```$ npm install```
 
 ##### 4. to start the frontend use the command below
 ```$ npm start```
