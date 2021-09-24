@@ -16,6 +16,8 @@ import { linkedinLogin } from "./auth/linkedinLogin"
 import { createNotification } from "./notification/createNotification"
 import { myNotificationRequests } from "./notification/myNotificationRequests"
 import { addItemHelper } from "./listings/addItemHelper"
+import { loggedInSearch } from "./listings/loggedInSearch"
+import { openSearch } from "./listings/openSearch"
 
 export interface IBackendAPI {
     verifyGoogleToken: (token: string) => any;
@@ -33,6 +35,8 @@ export interface IBackendAPI {
     createNotification: (item: any) => any;
     myNotificationRequests: () => any;
     addItemHelper: ({ helper, itemId }: any) => any;
+    loggedInSearch: (search: string) => any;
+    openSearch: (search: string) => any;
 }
 
 const backendAPI: IBackendAPI = {
@@ -50,7 +54,9 @@ const backendAPI: IBackendAPI = {
     linkedinLogin,
     createNotification,
     myNotificationRequests,
-    addItemHelper
+    addItemHelper,
+    loggedInSearch,
+    openSearch
 }
 
 export default backendAPI

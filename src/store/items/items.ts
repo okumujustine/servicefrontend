@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 import backendAPI from '../../api';
 
@@ -30,11 +31,14 @@ export const itemSlice = createSlice({
             changeableArray[itemIndex].status = action.payload.status;
 
             state.items = changeableArray
+        },
+        loadNewItemsArray: (state, action) => {
+            state.items = action.payload
         }
     },
 });
 
-const { itemsLoaded, isItemsLoading, updateItemStatusReducer } = itemSlice.actions
+const { itemsLoaded, isItemsLoading, updateItemStatusReducer, loadNewItemsArray } = itemSlice.actions
 
 export const loadItem = () => async dispatch => {
     dispatch(isItemsLoading(true))
@@ -45,8 +49,12 @@ export const loadItem = () => async dispatch => {
 
     } catch (err) {
         dispatch(isItemsLoading(false))
-        // toast.error(err.response ? err.response.data.message : 'Error loading items')
+        toast.error(err.response ? err.response.data.message : 'Error loading items')
     }
+}
+
+export const loadNewItems = (items: any) => async dispatch => {
+    dispatch(loadNewItemsArray(items))
 }
 
 export const updateItemStatusOnUI = ({ itemId, status }: { itemId: string, status: string }) => async dispatch => {
