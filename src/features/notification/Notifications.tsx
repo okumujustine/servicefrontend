@@ -29,6 +29,8 @@ export default function Notifications() {
 
     return (
         <div>
+            {notificationsState?.notifications.length <=0 ? <div>No notifications</div> : null}
+            
            {notificationsState?.notifications.map((notification, index) => {
                return <div className="bg-gray-50 py-3 px-6 rounded-md mb-2" key={index}>
                    <p className="text-gray-500"><i className="text-black">{notification?.user?.username} </i>requested to help with item <i className="text-black">{notification.item.title}</i></p>

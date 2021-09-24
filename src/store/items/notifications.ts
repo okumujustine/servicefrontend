@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
 
 import backendAPI from '../../api';
 
@@ -23,11 +22,15 @@ export const notificationSlice = createSlice({
         },
         notificationsLoaded: (state, action) => {
             state.notifications = action.payload;
+        },
+        notificationAdded: (state, action) => {
+            const newNotification = state.notifications.concat([action.payload]);
+            state.notifications = newNotification
         }
     },
 });
 
-const { isNotificationsLoading, notificationsLoaded } = notificationSlice.actions
+const { isNotificationsLoading, notificationsLoaded, notificationAdded } = notificationSlice.actions
 
 export const loadNotifications = () => async dispatch => {
     dispatch(isNotificationsLoading(true))
@@ -39,8 +42,12 @@ export const loadNotifications = () => async dispatch => {
 
     } catch (err) {
         dispatch(isNotificationsLoading(false))
-        toast.error(err.response ? err.response.data.message : 'Error loading notifications, try again later')
+        // toast.error(err.response ? err.response.data.message : 'Error loading notifications, try again later')
     }
+}
+
+export const loadNewNotification = (notification: any) => async dispatch => {
+    dispatch(notificationAdded(notification))
 }
 
 

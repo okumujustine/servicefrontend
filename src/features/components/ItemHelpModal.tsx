@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {  toast } from 'react-toastify';
+import io from 'socket.io-client';
+import { useSelector, useDispatch } from 'react-redux'
 
 import backendAPI from '../../api'
+import { NotificationServiceInstanceURL } from '../../api/axios';
+import { RootState } from '../../app/store';
 import Modal from './Modal'
+import { AuthState } from '../../store/auth/auth';
+import { loadNewNotification } from '../../store/items/notifications';
+
+const socket = io(NotificationServiceInstanceURL)
 
 export default function ItemHelpModal({
     item,
@@ -10,13 +18,33 @@ export default function ItemHelpModal({
     closeHelpModal
 }: any) {
 
+    const auth: AuthState = useSelector((state: RootState) => state.auth)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (auth.user) {
+            socket.emit('join', { user: auth.user.id })
+        }
+
+        socket.on('private_notification', (data: any) => {
+            dispatch(loadNewNotification(data))
+            toast.info("Some one requested to help on one of your item")
+        })
+        // eslint-disable-next-line
+    }, [])
+
     const onConfirm = async () => {
         
         try{
             await backendAPI.createNotification(item)
             
+            socket.emit("notification", {
+                itemId:item?._id,
+                userId:auth.user?.id,
+            })
             toast.success(`Help request sent successfully`)
             closeHelpModal()
+
           }catch(err){
             closeHelpModal()
             toast.error(err.response ? err.response.data.message : "Error trying to send help")

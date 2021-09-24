@@ -18,4 +18,6 @@ const NotificationServiceInstance = axios.create({
     withCredentials: true,
 });
 
-export { AuthServiceInstance, TodoServiceInstance, NotificationServiceInstance }
+const NotificationServiceInstanceURL = 'http://localhost:8000'
+
+export { AuthServiceInstance, TodoServiceInstance, NotificationServiceInstance, NotificationServiceInstanceURL }

@@ -1,14 +1,41 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit';
+import {
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+
 import authReducer from "../store/auth/auth";
 import itemsReducer from "../store/items/items";
 import notificationsReducer from "../store/items/notifications";
 
+const rootReducer = combineReducers({
+  auth: authReducer,
+  itemState: itemsReducer,
+  notificationsState: notificationsReducer
+})
+
+const persistConfig = {
+  key: 'root',
+  version: 1,
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    itemState: itemsReducer,
-    notificationsState: notificationsReducer
-  },
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    })
 });
 
 export type AppDispatch = typeof store.dispatch;
