@@ -86,6 +86,9 @@ export default function Listings() {
                 </div>
             }
             <div>
+                <div className="mb-2">
+                    search
+                </div>
                 {items.map((item: Item) => (
                     <div key={item._id} className="rounded border-gray-200 border shadow-sm p-4 mb-3">
                         <p className="text-xl capitalize underline truncate">{item.title}</p>

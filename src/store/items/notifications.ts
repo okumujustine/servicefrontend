@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 import backendAPI from '../../api';
 
@@ -24,8 +25,19 @@ export const notificationSlice = createSlice({
             state.notifications = action.payload;
         },
         notificationAdded: (state, action) => {
-            const newNotification = state.notifications.concat([action.payload]);
-            state.notifications = newNotification
+            const notificationState = state.notifications
+            const notificationPayload = action.payload
+
+            const isNotificationInArray = notificationState.some((notification) => notification._id === notificationPayload._id)
+
+            if (!isNotificationInArray) {
+                const newNotification = state.notifications.concat([notificationPayload]);
+                state.notifications = newNotification
+
+                toast.info(`${notificationPayload?.user?.username} requested to help on ${notificationPayload?.item?.title}`)
+            } else {
+                state.notifications = notificationState
+            }
         }
     },
 });

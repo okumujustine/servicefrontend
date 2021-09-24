@@ -28,7 +28,6 @@ export default function ItemHelpModal({
 
         socket.on('private_notification', (data: any) => {
             dispatch(loadNewNotification(data))
-            toast.info("Some one requested to help on one of your item")
         })
         // eslint-disable-next-line
     }, [])

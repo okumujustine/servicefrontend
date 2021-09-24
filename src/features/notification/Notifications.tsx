@@ -4,6 +4,7 @@ import {  toast } from 'react-toastify';
 import backendAPI from '../../api';
 import { RootState } from '../../app/store';
 import { INotificationState } from '../../store/items/notifications'
+import CustomTitle from '../components/CustomTitle';
 
 export default function Notifications() {
     const notificationsState: INotificationState = useSelector((state: RootState) => state.notificationsState)
@@ -29,7 +30,9 @@ export default function Notifications() {
 
     return (
         <div>
-            {notificationsState?.notifications.length <=0 ? <div>No notifications</div> : null}
+            {notificationsState?.notifications.length <=0 ? <div>
+                <CustomTitle title="No notifications found" />
+            </div> : null}
             
            {notificationsState?.notifications.map((notification, index) => {
                return <div className="bg-gray-50 py-3 px-6 rounded-md mb-2" key={index}>

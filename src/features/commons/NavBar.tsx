@@ -106,7 +106,9 @@ function NavBar() {
               {auth.loggedIn ? <>
                   <MobileNavItem item="Listings" to={ROUTES.LISTING}/>
                   <MobileNavItem item="Create" to={ROUTES.CREATE}/>
-                  <MobileNavItem item="Notifications" to={ROUTES.NOTIFICATION}/>
+
+                  <NotificationNavItem  notification = {notificationsState?.notifications?.length} item="Notifications" to={ROUTES.NOTIFICATION}/>
+
                   <MobileNavItem item="Profile" to={ROUTES.PROFILE}/>
                   </>:null}
 
