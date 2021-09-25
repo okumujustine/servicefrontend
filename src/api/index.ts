@@ -34,7 +34,7 @@ export interface IBackendAPI {
     linkedinLogin: (accessToken: string) => any;
     createNotification: (item: any) => any;
     myNotificationRequests: () => any;
-    addItemHelper: ({ helper, itemId }: any) => any;
+    addItemHelper: ({ helper, itemId, notificationId }: any) => any;
     loggedInSearch: (search: string) => any;
     openSearch: (search: string) => any;
 }

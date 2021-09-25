@@ -21,7 +21,7 @@ export default function ResetPassword() {
 
     useEffect(() => {
         if(!userId || !token) {
-            alert('Invalid link')
+            toast.error('Invalid link')
         }
         // eslint-disable-next-line
     },[])

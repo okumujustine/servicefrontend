@@ -22,3 +22,5 @@ NB: This values should be the same in the backend services as some of them are r
 
 ##### 4. to start the frontend use the command below
 ```$ npm start```
+
+####NB: Must RUN on only port 3000 or else you may experience unexpected errors and instabilities.

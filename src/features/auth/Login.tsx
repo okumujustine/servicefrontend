@@ -8,7 +8,6 @@ import DefaultLogin from './DefaultLogin';
 import CustomTitle from '../components/CustomTitle';
 import { setAuthLoader, setUserAfterLoginAction } from '../../store/auth/auth';
 import LinkedinLogin from "./LinkedinLogin"
-import CustomFacebookLogin from './FacebookLogin';
 import SocialLoginWrapper from './components/SocialLoginWrapper';
 
 
@@ -29,17 +28,25 @@ export default function Login() {
         }
     }
 
-    const responseFacebook = async (responseFacebook) => {
-        const { userId, accessToken } = responseFacebook
-        console.log("{userId, accessToken}", { userId, accessToken })
-        // try{
-        //     const api = await backendAPI.verifyFacebookToken(userId, accessToken)
-        //     console.log(api)
-        // }catch(e){
-        //     console.log("error verifying facebook account")
-        // }
+    // facebook login code backup
 
-    }
+    // const responseFacebook = async (responseFacebook) => {
+    //     const { userId, accessToken } = responseFacebook
+    //     console.log("{userId, accessToken}", { userId, accessToken })
+    //     try{
+    //         const api = await backendAPI.verifyFacebookToken(userId, accessToken)
+    //         console.log(api)
+    //     }catch(e){
+    //         console.log("error verifying facebook account")
+    //     }
+
+    // }
+
+    //facebook login component
+
+    // <SocialLoginWrapper>
+    //     <CustomFacebookLogin responseFacebook={responseFacebook} />
+    // </SocialLoginWrapper>
 
     return (
         <div>
@@ -54,10 +61,6 @@ export default function Login() {
 
             <SocialLoginWrapper>
                 <CustomGoogleLogin responseGoogle={responseGoogle} />
-            </SocialLoginWrapper>
-
-            <SocialLoginWrapper>
-                <CustomFacebookLogin responseFacebook={responseFacebook} />
             </SocialLoginWrapper>
 
             <SocialLoginWrapper>

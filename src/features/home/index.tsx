@@ -19,7 +19,7 @@ export interface ICreateForm {
 export const CreateItemSchema = Yup.object().shape({
     title: Yup.string()
         .min(2, 'Title should be more than 2 characters')
-        .max(50, 'Title is too long')
+        .max(50, 'Title must be less than 50 characters')
         .required('Title is required'),
     description: Yup.string()
         .min(7, 'Description Title should be more than 7 characters')

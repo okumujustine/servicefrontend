@@ -11,9 +11,11 @@ export default function Notifications() {
 
     const acceptHelpRequest = async (notification:any) => {
     
+        console.log("notification", notification)
         
         try{
            await  backendAPI.addItemHelper({
+                notificationId: notification._id,
                 helper: notification.user,
                 itemId: notification.item.id,
             })
