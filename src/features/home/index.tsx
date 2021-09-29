@@ -68,7 +68,7 @@ export default function Index() {
                 validationSchema={CreateItemSchema}
                 onSubmit={submitAction}
             >
-                {({ errors, touched }) => (
+                {({ errors, touched, values }) => (
                     <Form>
                         <InputWithErrorWrapper
                             id="title"
@@ -77,6 +77,7 @@ export default function Index() {
                             touched={touched.title}
                         />
 
+                        <label>Character must be ({values.description.length <= 200 ? 200 - values.description.length: 0})</label>
                         <TextAreaWithErrorWrapper
                             id="description"
                             placeholder="Description"

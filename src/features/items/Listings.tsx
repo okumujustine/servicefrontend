@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
-import backendAPI from '../../api'
+import _ from 'lodash';
 
+import backendAPI from '../../api'
 import { RootState } from '../../app/store'
 import { ReactComponent as NoItemSVG } from "../../assets/svg/nowork.svg"
 import { AuthState } from '../../store/auth/auth'
@@ -33,7 +34,6 @@ export default function Listings() {
     const [selectedItem, setSelectedItem] = useState<Item | null>(null)
     const [updateModal, setUpdateModal] = React.useState(false);
     const [helpModal, setHelpModal] = React.useState(false);
-    const [search, setSearch] = React.useState("");
 
     const auth: AuthState = useSelector((state: RootState) => state.auth)
     const { items, itemsLoading }: ItemState = useSelector((state: RootState) => state.itemState)
@@ -62,12 +62,18 @@ export default function Listings() {
         setSelectedItem(item)
     }
 
-    const onSearchNow = async () => {
+    const onSearchNow = async (e) => {
+        const search = e.target.value
+
+        if (!search){
+            dispatch(loadItem())
+            return
+        }
+
         if(auth.user && auth.loggedIn){
             try{
                 const searchResponse = await backendAPI.loggedInSearch(search)
                 dispatch(loadNewItems(searchResponse))
-                setSearch("")
             }catch(err){
                 toast.error("Failed to search item, try again later")
             }
@@ -76,12 +82,20 @@ export default function Listings() {
             try{
                 const searchResponse = await backendAPI.openSearch(search)
                 dispatch(loadNewItems(searchResponse))
-                setSearch("")
             }catch(err){
                 toast.error("Failed to search item, try again later")
             }
         }
     }
+
+    const debounceFunc = useCallback(
+        _.debounce((e) => onSearchNow(e), 500),
+        []
+      );
+    
+      const handleChange = (e) => {
+        debounceFunc(e);
+      };
 
     function userExists(id, arr) {
         const userEx = arr.some(function (el) {
@@ -112,14 +126,10 @@ export default function Listings() {
             <div>
                 <div className="mb-2 flex flex-row justify-between">
                 <input 
-                    onChange={(e) => setSearch (e.target.value)}
-                    value={search}
+                    onChange={handleChange}
                     placeholder="Type here to search for item by title and description"
-                    className="border mb-1 transition duration-500 focus:placeholder-transparent border-black w-8/12 py-2 text-center  bg-transparent rounded-md focus:outline-none "
+                    className="border mb-2 mb:mb-3 transition duration-500 focus:placeholder-transparent border-black w-full py-2 text-center  bg-transparent rounded-md focus:outline-none "
                 />
-                <div className="w-4/12 px-3">
-                    <button onClick={onSearchNow} className="text-white bg-blue-800 px-3 py-2 rounded-md">Search</button>
-                </div>
                 </div>
                 {items.map((item: Item) => (
                     <div key={item._id} className="rounded border-gray-200 border shadow-sm p-4 mb-3">
