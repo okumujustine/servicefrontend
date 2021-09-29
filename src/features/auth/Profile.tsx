@@ -1,8 +1,12 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import {
+    useHistory
+  } from "react-router-dom";
 
 import { RootState } from '../../app/store'
 import { AuthState, onLogout } from '../../store/auth/auth'
+import { ROUTES } from '../commons/routes';
 import CustomTitle from '../components/CustomTitle'
 
 function ProfileItemWrapper({ children, value }: { children: React.ReactNode, value: string }) {
@@ -16,6 +20,7 @@ function ProfileItemWrapper({ children, value }: { children: React.ReactNode, va
 
 export default function Profile() {
     const dispatch = useDispatch()
+    let history = useHistory();
 
     const auth: AuthState = useSelector((state: RootState) => state.auth)
 
@@ -23,6 +28,9 @@ export default function Profile() {
         dispatch(onLogout())
     }
 
+    const onRecoverPassword = () => {
+        history.push(ROUTES.RECOVER_PASSWORD)
+    }
     return (
         <>
         <CustomTitle title="My Profile"/>
@@ -40,7 +48,10 @@ export default function Profile() {
                 </svg>
             </ProfileItemWrapper>
         </div>: null}
-        <button onClick={onLogoutNow} className="bg-red-400 text-white px-4 py-2 rounded-md shadow-md">logout</button>
+        <div className="flex flex-col">
+        <button onClick={onLogoutNow} className="bg-red-400 text-white px-4 py-2 rounded-md shadow-md mb-3" style={{maxWidth:'100px'}}>logout</button>
+        <button onClick={onRecoverPassword} className="bg-green-400 text-white px-4 py-2 rounded-md shadow-md" style={{maxWidth:'150px'}}>reset password</button>
+        </div>
         </>
     )
 }

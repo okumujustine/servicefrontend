@@ -18,7 +18,7 @@ export interface ICreateForm {
 
 export const CreateItemSchema = Yup.object().shape({
     title: Yup.string()
-        .min(2, 'Title should be more than 2 characters')
+        .min(3, 'Title should be more than 3 characters')
         .max(50, 'Title must be less than 50 characters')
         .required('Title is required'),
     description: Yup.string()
@@ -70,6 +70,7 @@ export default function Index() {
             >
                 {({ errors, touched, values }) => (
                     <Form>
+                        <label>Title - Characters ({values.title.length <= 50 ? 50 - values.title.length: 0})</label>
                         <InputWithErrorWrapper
                             id="title"
                             placeholder="Title"
@@ -77,7 +78,7 @@ export default function Index() {
                             touched={touched.title}
                         />
 
-                        <label>Character must be ({values.description.length <= 200 ? 200 - values.description.length: 0})</label>
+                        <label>Description - Characters ({values.description.length <= 200 ? 200 - values.description.length: 0})</label>
                         <TextAreaWithErrorWrapper
                             id="description"
                             placeholder="Description"

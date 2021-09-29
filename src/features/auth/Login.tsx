@@ -9,6 +9,7 @@ import CustomTitle from '../components/CustomTitle';
 import { setAuthLoader, setUserAfterLoginAction } from '../../store/auth/auth';
 import LinkedinLogin from "./LinkedinLogin"
 import SocialLoginWrapper from './components/SocialLoginWrapper';
+import CustomFacebookLogin from './FacebookLogin';
 
 
 export default function Login() {
@@ -30,17 +31,20 @@ export default function Login() {
 
     // facebook login code backup
 
-    // const responseFacebook = async (responseFacebook) => {
-    //     const { userId, accessToken } = responseFacebook
-    //     console.log("{userId, accessToken}", { userId, accessToken })
-    //     try{
-    //         const api = await backendAPI.verifyFacebookToken(userId, accessToken)
-    //         console.log(api)
-    //     }catch(e){
-    //         console.log("error verifying facebook account")
-    //     }
+    const responseFacebook = async (responseFacebook) => {
+       
+        const userId = responseFacebook?.id
+        const accessToken = responseFacebook?.accessToken
 
-    // }
+        console.log("{userId, accessToken}", { userId, accessToken })
+        try{
+            const api = await backendAPI.verifyFacebookToken(userId, accessToken)
+            console.log(api)
+        }catch(e){
+            console.log("error verifying facebook account")
+        }
+
+    }
 
     //facebook login component
 
@@ -65,6 +69,10 @@ export default function Login() {
 
             <SocialLoginWrapper>
                 <LinkedinLogin />
+            </SocialLoginWrapper>
+
+            <SocialLoginWrapper>
+                <CustomFacebookLogin responseFacebook={responseFacebook} />
             </SocialLoginWrapper>
         </div>
     )

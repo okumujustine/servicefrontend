@@ -23,13 +23,14 @@ export default function NavigationRoutes() {
             
             <UnProtectedRoute exact path={ROUTES.LOGIN} component={Login} />
             <UnProtectedRoute exact path={ROUTES.REGISTER} component={Register} />
-            <UnProtectedRoute exact path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
-            <UnProtectedRoute exact path={ROUTES.RECOVER_PASSWORD} component={RecoverPassword} />
             <UnProtectedRoute exact path={ROUTES.LINKEDIN_CALLBACK} component={LinkedinLoginCallback} />
 
             <ProtectedRoute exact path={ROUTES.NOTIFICATION} component={Notifications} />
             <ProtectedRoute exact path={ROUTES.CREATE} component={Home} />
             <ProtectedRoute exact path={ROUTES.PROFILE} component={Profile} />
+
+            <Route exact path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
+            <Route exact path={ROUTES.RECOVER_PASSWORD} component={RecoverPassword} />
             
         </>
     )
