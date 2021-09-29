@@ -14,6 +14,7 @@ import UnProtectedRoute from '../components/UnProtectedRoute';
 import Home from "../home/"
 import Listings from '../items/Listings';
 import Notifications from '../notification/Notifications';
+import PrivacyPolicy from './PrivacyPolicy';
 import { ROUTES } from './routes';
 
 export default function NavigationRoutes() {
@@ -31,6 +32,7 @@ export default function NavigationRoutes() {
 
             <Route exact path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
             <Route exact path={ROUTES.RECOVER_PASSWORD} component={RecoverPassword} />
+            <Route exact path={ROUTES.PRIVACY_POLICY} component={PrivacyPolicy} />
             
         </>
     )

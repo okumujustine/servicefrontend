@@ -36,21 +36,18 @@ export default function Login() {
         const userId = responseFacebook?.id
         const accessToken = responseFacebook?.accessToken
 
-        console.log("{userId, accessToken}", { userId, accessToken })
         try{
-            const api = await backendAPI.verifyFacebookToken(userId, accessToken)
-            console.log(api)
+            const user = await backendAPI.verifyFacebookToken(userId, accessToken)
+            
+            dispatch(setUserAfterLoginAction(user))
+            dispatch(setAuthLoader(false))
         }catch(e){
             console.log("error verifying facebook account")
+            dispatch(setAuthLoader(false))
         }
 
     }
 
-    //facebook login component
-
-    // <SocialLoginWrapper>
-    //     <CustomFacebookLogin responseFacebook={responseFacebook} />
-    // </SocialLoginWrapper>
 
     return (
         <div>

@@ -8,6 +8,7 @@ const RESET_PASSWORD = "/reset-password/:userId/:token"
 const RECOVER_PASSWORD = "/recover-password"
 const NOTIFICATION = "/notification"
 const LINKEDIN_CALLBACK = "/linkedin-callback"
+const PRIVACY_POLICY = "/privacy"
 
 export const ROUTES = {
     LOGIN,
@@ -18,5 +19,6 @@ export const ROUTES = {
     LISTING,
     NOTIFICATION,
     RECOVER_PASSWORD,
-    LINKEDIN_CALLBACK
+    LINKEDIN_CALLBACK,
+    PRIVACY_POLICY
 }
